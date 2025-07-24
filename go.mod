@@ -1,4 +1,4 @@
-module github.com/pda-labs/httpx/httpx
+module github.com/pda-labs/httpx
 
 go 1.24.3
 
