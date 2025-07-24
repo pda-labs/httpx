@@ -130,7 +130,7 @@ func TranslatorFor(r *http.Request) ut.Translator {
 //	})
 func RegisterCustomValidator(tag string, fn validator.Func, messages map[string]string) error {
 	if V == nil {
-		return ErrValidatorUnset
+		return errValidatorUnset
 	}
 
 	if err := V.RegisterValidation(tag, fn); err != nil {

@@ -9,11 +9,11 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// ErrDecode  - повреждённый или непарсибельный JSON.
-var ErrDecode = errors.New("httpx: cannot decode JSON body")
+// errDecode  - повреждённый или непарсибельный JSON.
+var errDecode = errors.New("httpx: cannot decode JSON body")
 
-// ErrValidatorUnset - глобальный валидатор не сконфигурирован.
-var ErrValidatorUnset = errors.New("httpx: validator is not set (call httpx.V = validator.New())")
+// errValidatorUnset - глобальный валидатор не сконфигурирован.
+var errValidatorUnset = errors.New("httpx: validator is not set (call httpx.V = validator.New())")
 
 const maxBodySize int64 = 1 << 23 // 8 MiB
 
@@ -52,17 +52,17 @@ func BindValidate[T any](r *http.Request, dst *T) (map[string]string, error) {
 				return nil, r.Context().Err()
 			default:
 			}
-			return nil, fmt.Errorf("%w: %v", ErrDecode, err)
+			return nil, fmt.Errorf("%w: %v", errDecode, err)
 		}
 		// Проверяем trailing garbage
 		if decoder.More() {
-			return nil, fmt.Errorf("%w: extra data after JSON object", ErrDecode)
+			return nil, fmt.Errorf("%w: extra data after JSON object", errDecode)
 		}
 	}
 
 	//  Валидатор
 	if V == nil {
-		return nil, ErrValidatorUnset
+		return nil, errValidatorUnset
 	}
 
 	//  Валидация
